@@ -1,13 +1,11 @@
 <?php
 session_start();
 
-// Check if the user is logged in
 if (!isset($_SESSION['username'])) {
     header('Location: login.php');
     exit();
 }
 
-// Database connection
 $servername = "localhost";
 $db_username = "root";
 $db_password = "";
@@ -19,17 +17,14 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Get the username from the session
 $username = $_SESSION['username'];
 
-// Fetch attendance data for the user from the database
 $query = "SELECT subject_name, total_classes, attended_classes FROM attendance WHERE username = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("s", $username);
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Store attendance data in an associative array
 $attendance = [];
 while ($row = $result->fetch_assoc()) {
     $attendance[] = [
@@ -54,14 +49,11 @@ $conn->close();
 </head>
 <body class="bg-gray-100 text-gray-800 flex flex-col min-h-screen">
 
-    <!-- Navbar -->
     <?php include './include/navbar.php'; ?>
 
-    <!-- Main Content -->
     <main class="py-12 container mx-auto">
         <h1 class="text-4xl font-bold text-center text-red-600 mb-8">Academic Attendance</h1>
 
-        <!-- Display Attendance -->
         <div class="max-w-2xl mx-auto bg-white shadow-md rounded-lg p-6">
             <h2 class="text-2xl font-semibold text-gray-700 mb-4">Your Attendance</h2>
             <table class="w-full border-collapse border border-gray-300">
@@ -95,7 +87,6 @@ $conn->close();
         </div>
     </main>
 
-    <!-- Footer -->
     <?php include './include/footer.php'; ?>
 
 </body>

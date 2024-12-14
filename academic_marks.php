@@ -49,14 +49,11 @@ $conn->close();
 </head>
 <body class="bg-gray-100 text-gray-800 flex flex-col min-h-screen">
 
-    <!-- Navbar -->
     <?php include './include/navbar.php'; ?>
 
-    <!-- Main Content -->
     <main class="py-12 container mx-auto">
         <h1 class="text-4xl font-bold text-center text-red-600 mb-8">Academic Marks</h1>
 
-        <!-- Display Marks -->
         <div class="max-w-2xl mx-auto bg-white shadow-md rounded-lg p-6">
             <h2 class="text-2xl font-semibold text-gray-700 mb-4">Your Marks</h2>
             <table class="w-full border-collapse border border-gray-300">
@@ -86,7 +83,6 @@ $conn->close();
         </div>
     </main>
 
-    <!-- Footer -->
     <?php include './include/footer.php'; ?>
 
 </body>

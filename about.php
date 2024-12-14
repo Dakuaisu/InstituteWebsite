@@ -10,10 +10,8 @@ session_start();
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 text-gray-800 flex flex-col min-h-screen">
-    <!-- Navbar -->
     <?php include './include/navbar.php';?>
 
-    <!-- About Section -->
     <main class="py-16 container mx-auto px-4">
         <h1 class="text-4xl font-extrabold text-center text-gray-900 mb-8">About Our Institute</h1>
         <p class="text-lg text-center text-gray-600 max-w-3xl mx-auto mb-12">
@@ -35,7 +33,6 @@ session_start();
         </div>
     </main>
 
-    <!-- Footer -->
     <?php include './include/footer.php';?>
 </body>
 </html>

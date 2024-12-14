@@ -1,61 +1,73 @@
 <?php
 session_start();
+session_regenerate_id(true); 
 
-// Check if the user is logged in as faculty
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'faculty') {
     header('Location: login.php');
     exit();
 }
 
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "InstituteDB";
+define('DB_SERVER', 'localhost');
+define('DB_USERNAME', 'root');
+define('DB_PASSWORD', '');
+define('DB_NAME', 'InstituteDB');
 
-$conn = new mysqli($servername, $username, $password, $database);
+$conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
 
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    die("Database connection issue. Please try again later.");
 }
+
+
 
 // Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['update_marks'])) {
-        // Update marks
         $student_username = $_POST['student_username'];
         $subject_name = $_POST['subject_name'];
         $marks = $_POST['marks'];
 
+    if ($marks < 0 || $marks > 100) {
+        $marks_error_message = "Marks should be between 0 and 100.";
+    } else {
         $query = "UPDATE marks SET marks = ? WHERE username = ? AND subject_name = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("iss", $marks, $student_username, $subject_name);
 
         if ($stmt->execute()) {
-            $marks_success_message = "Marks updated successfully.";
+            $marks_success_message = "Marks for $student_username in $subject_name updated successfully.";
         } else {
-            $marks_error_message = "Failed to update marks.";
+            $marks_error_message = "Failed to update marks for $student_username in $subject_name.";
+            error_log("Error updating marks: " . $stmt->error);
+            error_log("Query: $query");
         }
-        $stmt->close();
-    } elseif (isset($_POST['update_attendance'])) {
-        // Update attendance
-        $student_username = $_POST['student_username'];
-        $subject_name = $_POST['subject_name'];
-        $total_classes = $_POST['total_classes'];
-        $attended_classes = $_POST['attended_classes'];
-
-        $query = "UPDATE attendance SET total_classes = ?, attended_classes = ? WHERE username = ? AND subject_name = ?";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("iiss", $total_classes, $attended_classes, $student_username, $subject_name);
-
-        if ($stmt->execute()) {
-            $attendance_success_message = "Attendance updated successfully.";
-        } else {
-            $attendance_error_message = "Failed to update attendance.";
-        }
+        
         $stmt->close();
     }
-}
+        } elseif (isset($_POST['update_attendance'])) {
+            $student_username = $_POST['student_username'];
+            $subject_name = $_POST['subject_name'];
+            $total_classes = $_POST['total_classes'];
+            $attended_classes = $_POST['attended_classes'];
+
+            if ($attended_classes > $total_classes) {
+                $attendance_error_message = "Attended classes cannot exceed total classes.";
+            } else {
+                $query = "UPDATE attendance SET total_classes = ?, attended_classes = ? WHERE username = ? AND subject_name = ?";
+                $stmt = $conn->prepare($query);
+                $stmt->bind_param("iiss", $total_classes, $attended_classes, $student_username, $subject_name);
+
+                if ($stmt->execute()) {
+                    $attendance_success_message = "Attendance for $student_username in $subject_name updated successfully.";
+                } else {
+                    $attendance_error_message = "Failed to update attendance for $student_username in $subject_name.";
+                    error_log("Error updating attendance: " . $stmt->error);
+                }
+                $stmt->close();
+            }
+        }
+    }
+
 
 $conn->close();
 ?>
@@ -84,7 +96,12 @@ $conn->close();
         <?php if (isset($marks_error_message)): ?>
             <div class="bg-red-100 text-red-700 p-4 rounded mb-6"> <?= htmlspecialchars($marks_error_message) ?> </div>
         <?php endif; ?>
-
+        <?php if (isset($attendance_success_message)): ?>
+            <div class="bg-green-100 text-green-700 p-4 rounded mb-6"> <?= htmlspecialchars($attendance_success_message) ?> </div>
+        <?php endif; ?>
+        <?php if (isset($attendance_error_message)): ?>
+            <div class="bg-red-100 text-red-700 p-4 rounded mb-6"> <?= htmlspecialchars($attendance_error_message) ?> </div>
+        <?php endif; ?>
 
         <!-- Update Marks -->
         <section class="bg-white shadow-md rounded-lg p-6 mb-8">
@@ -107,12 +124,7 @@ $conn->close();
                 <button type="submit" name="update_marks" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-500">Update Marks</button>
             </form>
         </section>
-        <?php if (isset($attendance_success_message)): ?>
-            <div class="bg-green-100 text-green-700 p-4 rounded mb-6"> <?= htmlspecialchars($attendance_success_message) ?> </div>
-        <?php endif; ?>
-        <?php if (isset($attendance_error_message)): ?>
-            <div class="bg-red-100 text-red-700 p-4 rounded mb-6"> <?= htmlspecialchars($attendance_error_message) ?> </div>
-        <?php endif; ?>
+
         <!-- Update Attendance -->
         <section class="bg-white shadow-md rounded-lg p-6">
             <h2 class="text-2xl font-semibold text-gray-700 mb-4">Update Attendance</h2>
@@ -144,29 +156,8 @@ $conn->close();
 
     <!-- Footer -->
     <?php include './include/footer.php'; ?>
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const marksForm = document.querySelector('form[action=""][method="POST"]');
-        const attendanceForm = document.querySelector('form[action=""][method="POST"]:last-of-type');
 
-        marksForm.addEventListener('submit', (event) => {
-            const marksInput = document.getElementById('marks');
-            if (marksInput.value < 0 || marksInput.value > 100) {
-                event.preventDefault();
-                alert("Marks should be between 0 and 100.");
-            }
-        });
-
-        attendanceForm.addEventListener('submit', (event) => {
-            const totalClasses = document.getElementById('total_classes');
-            const attendedClasses = document.getElementById('attended_classes');
-            if (parseInt(attendedClasses.value) > parseInt(totalClasses.value)) {
-                event.preventDefault();
-                alert("Attended classes cannot exceed total classes.");
-            }
-        });
-    });
-</script>
+ 
 
 </body>
 </html>

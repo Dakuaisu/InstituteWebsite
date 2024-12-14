@@ -1,14 +1,11 @@
 <?php
 session_start();
 
-// Check if the user is logged in
 if (!isset($_SESSION['username'])) {
-    // Redirect to login page if not logged in
     header('Location: login.php');
     exit();
 }
 
-// Get the username and first name from the session
 $first_name = $_SESSION['first_name'];
 ?>
 
@@ -22,7 +19,6 @@ $first_name = $_SESSION['first_name'];
 </head>
 <body class="bg-gradient-to-r from-green-100 to-blue-200 text-gray-800 flex flex-col min-h-screen">
 
-    <!-- Navbar -->
     <?php include './include/navbar.php'; ?>
 
     <!-- Welcome Section -->
@@ -39,7 +35,6 @@ $first_name = $_SESSION['first_name'];
         </div>
     </main>
 
-    <!-- Footer -->
     <?php include './include/footer.php'; ?>
 
 </body>

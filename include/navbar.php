@@ -33,12 +33,10 @@
         const dropdownMenu = document.getElementById('dropdown-menu');
         const dropdownContainer = document.getElementById('dropdown-container');
 
-        // Toggle visibility on click
         dropdownToggle.addEventListener('click', () => {
             dropdownMenu.classList.toggle('hidden');
         });
 
-        // Close dropdown when clicking outside
         document.addEventListener('click', (event) => {
             if (!dropdownContainer.contains(event.target)) {
                 dropdownMenu.classList.add('hidden');

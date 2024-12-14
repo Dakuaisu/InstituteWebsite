@@ -10,7 +10,7 @@ session_start();
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 text-gray-800 flex flex-col min-h-screen">
-    <!-- Navbar -->
+    
     <?php include './include/navbar.php';?>
 
     <!-- Courses Section -->
@@ -22,10 +22,10 @@ session_start();
             <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
                 <img src="path_to_image/pythoned.png" alt="Course 1" class="w-full h-48  rounded-t-lg mb-6">
                 <h2 class="text-2xl font-semibold text-red-700 mb-4">Python Programming</h2>
-                <p class="text-gray-600 mb-6">This course provides an in-depth understanding of the basics of programming, covering key concepts and languages like Python and JavaScript.</p>
+                <p class="text-gray-600 mb-6">This course provides an in-depth understanding of the basics of programming, covering key concepts like Object Oriented Programming.</p>
                 <a href="course_details.php?course=1" class="text-red-600 font-semibold hover:underline">Learn More</a>
             </div>
-                
+
             <!-- Course 2 -->
             <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
                 <img src="path_to_image/1715058774193.jpg" alt="Course 2" class="w-full h-48 object-cover rounded-t-lg mb-6">
@@ -43,13 +43,11 @@ session_start();
             </div>
         </div>
         
-        <!-- More Courses Button -->
         <div class="text-center mt-12">
             <a href="all_courses.php" class="bg-red-600 text-white px-6 py-3 rounded-lg text-lg hover:bg-red-500 transition-colors">View All Courses</a>
         </div>
     </main>
 
-    <!-- Footer -->
     <?php include './include/footer.php';?>
 </body>
 </html>

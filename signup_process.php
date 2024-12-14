@@ -20,13 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    // Validate inputs
     if (empty($first_name) || empty($last_name) || empty($username) || empty($email) || empty($password)) {
         $error = "All fields are required.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = "Invalid email format.";
     } else {
-        // Check if username already exists
         $checkQuery = "SELECT * FROM Users WHERE username = ?";
         $stmt = $conn->prepare($checkQuery);
         $stmt->bind_param("s", $username);
@@ -36,7 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($result->num_rows > 0) {
             $error = "Username is already taken.";
         } else {
-            // Insert new user data with first and last name
             $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
             $insertQuery = "INSERT INTO users (first_name, last_name, username, email, password) VALUES (?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($insertQuery);
