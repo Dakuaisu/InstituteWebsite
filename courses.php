@@ -20,24 +20,24 @@ session_start();
         <div class="grid md:grid-cols-3 gap-12">
             <!-- Course 1 -->
             <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-                <img src="path_to_image/course1.jpg" alt="Course 1" class="w-full h-48 object-cover rounded-t-lg mb-6">
-                <h2 class="text-2xl font-semibold text-red-700 mb-4">Course Title 1</h2>
+                <img src="path_to_image/pythoned.png" alt="Course 1" class="w-full h-48  rounded-t-lg mb-6">
+                <h2 class="text-2xl font-semibold text-red-700 mb-4">Python Programming</h2>
                 <p class="text-gray-600 mb-6">This course provides an in-depth understanding of the basics of programming, covering key concepts and languages like Python and JavaScript.</p>
                 <a href="course_details.php?course=1" class="text-red-600 font-semibold hover:underline">Learn More</a>
             </div>
-            
+                
             <!-- Course 2 -->
             <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-                <img src="path_to_image/course2.jpg" alt="Course 2" class="w-full h-48 object-cover rounded-t-lg mb-6">
-                <h2 class="text-2xl font-semibold text-red-700 mb-4">Course Title 2</h2>
+                <img src="path_to_image/1715058774193.jpg" alt="Course 2" class="w-full h-48 object-cover rounded-t-lg mb-6">
+                <h2 class="text-2xl font-semibold text-red-700 mb-4">Web Development</h2>
                 <p class="text-gray-600 mb-6">An advanced course for web development, focusing on frameworks such as React and Vue.js, along with backend technologies like Node.js.</p>
                 <a href="course_details.php?course=2" class="text-red-600 font-semibold hover:underline">Learn More</a>
             </div>
 
             <!-- Course 3 -->
             <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-                <img src="path_to_image/course3.jpg" alt="Course 3" class="w-full h-48 object-cover rounded-t-lg mb-6">
-                <h2 class="text-2xl font-semibold text-red-700 mb-4">Course Title 3</h2>
+                <img src="path_to_image/What-is-data-science-2.jpg  " alt="Course 3" class="w-full h-48 object-cover rounded-t-lg mb-6">
+                <h2 class="text-2xl font-semibold text-red-700 mb-4">Data Science</h2>
                 <p class="text-gray-600 mb-6">A comprehensive introduction to data science, covering tools like R, Python, and various data analysis techniques.</p>
                 <a href="course_details.php?course=3" class="text-red-600 font-semibold hover:underline">Learn More</a>
             </div>

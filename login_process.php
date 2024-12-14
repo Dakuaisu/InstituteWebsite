@@ -14,14 +14,14 @@ if ($conn->connect_error) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'] ?? '';
-    $password = $_POST['password'] ?? '';
+    $username = trim($_POST['username'] ?? '');
+    $password = trim($_POST['password'] ?? '');
 
-    // Validate inputs
     if (empty($username) || empty($password)) {
-        $error = "All fields are required.";
+        $_SESSION['error'] = "All fields are required.";
+        header('Location: login.php');
+        exit();
     } else {
-        // Check if username exists
         $checkQuery = "SELECT * FROM Users WHERE username = ?";
         $stmt = $conn->prepare($checkQuery);
         $stmt->bind_param("s", $username);
@@ -30,19 +30,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
-            // Verify password
             if (password_verify($password, $user['Password'])) {
-                // Store username and first name in session
                 $_SESSION['username'] = $username;
-                $_SESSION['first_name'] = $user['first_name']; // Store first name
-
+                $_SESSION['first_name'] = $user['first_name'];
+                $_SESSION['role'] = $user['role'];
+                
                 header('Location: welcome.php');
                 exit();
             } else {
-                $error = "Invalid username or password.";
+                $_SESSION['error'] = "Invalid username or password.";
+                header('Location: login.php');
+                exit();
             }
         } else {
-            $error = "Invalid username or password.";
+            $_SESSION['error'] = "Invalid username or password.";
+            header('Location: login.php');
+            exit();
         }
         $stmt->close();
     }

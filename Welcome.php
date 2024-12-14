@@ -8,8 +8,8 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-// Get the username from the session
-$username = $_SESSION['username'];
+// Get the username and first name from the session
+$first_name = $_SESSION['first_name'];
 ?>
 
 <!DOCTYPE html>
@@ -20,20 +20,27 @@ $username = $_SESSION['username'];
     <title>Welcome</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 text-gray-800 flex flex-col min-h-screen">
+<body class="bg-gradient-to-r from-green-100 to-blue-200 text-gray-800 flex flex-col min-h-screen">
 
     <!-- Navbar -->
-    <?php include './include/navbar.php';?>
+    <?php include './include/navbar.php'; ?>
 
     <!-- Welcome Section -->
-    <main class="py-10 container mx-auto text-center">
-        <h1 class="text-4xl font-bold text-green-500 mb-6">Welcome, <?= htmlspecialchars($_SESSION['first_name']) ?>!</h1>
-        <p class="text-lg mb-4">You have successfully logged in. Feel free to explore the website.</p>
-        <a href="logout.php" class="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-500">Logout</a>
+    <main class="py-20 container mx-auto flex flex-col items-center">
+        <div class="bg-white shadow-xl rounded-lg p-10 text-center max-w-lg">
+            <h1 class="text-5xl font-extrabold text-green-600 mb-4">Welcome, <?= htmlspecialchars($first_name) ?>!</h1>
+            <p class="text-lg text-gray-600 mb-6">
+                We're thrilled to have you here. Explore our features, dive into the courses, or contact us for support.
+            </p>
+            <a href="logout.php" 
+               class="inline-block bg-red-600 text-white font-semibold py-3 px-8 rounded-lg shadow-lg hover:bg-red-500 transition-all duration-300">
+               Logout
+            </a>
+        </div>
     </main>
 
     <!-- Footer -->
-    <?php include './include/footer.php';?>
+    <?php include './include/footer.php'; ?>
 
 </body>
 </html>
